@@ -6,5 +6,24 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :lists, dependent: :destroy
-  # has_many :categories, -> { order(id: :asc) },  dependent: :destroy
+  has_many :categories, -> { order(id: :asc) },  dependent: :destroy
+
+  validates :first_name, :last_name, :currency, presence: true
+
+  after_create :populate_categories
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  private
+
+  def populate_categories
+    self.categories << Category.new(name: 'Dairy')
+    self.categories << Category.new(name: 'Bakery')
+    self.categories << Category.new(name: 'Fruits & Vegetables')
+    self.categories << Category.new(name: 'Meat')
+    self.categories << Category.new(name: 'Home Chemistry')
+    self.categories << Category.new(name: 'Miscellaneous')
+  end
 end
