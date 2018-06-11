@@ -10,25 +10,11 @@ module Strawberry
     end
   end
 
-  module RequestMacros
-    include Warden::Test::Helpers
-
-    def self.included(base)
-      base.before(:each) { Warden.test_mode! }
-      base.after(:each) { Warden.test_reset! }
-    end
-
-    # for use in request specs
-    def sign_in_user(user = FactoryBot.create(:user))
-      sign_out @user unless @user.nil?
-      @user = user
-      login_as(@user, scope: :user)
-    end
-
-    def json
-      JSON.parse(response.body)
-    end
-  end
+  # module RequestMacros
+  #   def json
+  #     JSON.parse(response.body)
+  #   end
+  # end
 
   # module MailerMacros
   #   def delayed_mail_jobs_size
@@ -38,8 +24,9 @@ module Strawberry
 end
 
 RSpec.configure do |config|
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Strawberry::ControllerMacros, type: :controller
-  config.include Strawberry::RequestMacros, type: :request
+  # config.include Strawberry::RequestMacros, type: :request
   # config.include Basara::MailerMacros, type: :controller
   # config.include Basara::MailerMacros, type: :request
 end
