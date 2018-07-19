@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   devise_for :users
   devise_scope :user do
     namespace :api do
@@ -11,14 +12,13 @@ Rails.application.routes.draw do
           put 'update-profile', to: 'registrations#update'
           delete 'delete-account', to: 'registrations#destroy'
         end
-        # resources :lists do
-        #   resources :items do
-        #     post 'toggle-done', action: :toggle_done, on: :member
-        #   end
-        # end
-
-        # get 'profile', to: 'users#profile'
-
+        resources :lists, except: [:new, :show, :edit] do
+          resources :items, except: [:new, :show, :edit] do
+            post 'toggle-done', action: :toggle_done, on: :member
+          end
+        end
+        resources :categories, except: [:new, :show, :edit]
+        get 'profile', to: 'users#profile'
       end
     end
   end
