@@ -44,6 +44,7 @@ describe Api::V1::Auth::RegistrationsController, type: :request do
     let(:user) { create(:user, currency: 'USD') }
     let(:email) { user.email }
     let(:wrong_request) { { user: { email: 'wrong@wrong.com' } } }
+    
     before :each do
       sign_in(user)
     end
