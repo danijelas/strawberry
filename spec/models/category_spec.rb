@@ -9,7 +9,7 @@ describe Category, type: :model do
 
   context 'validations' do
     it { is_expected.to validate_presence_of(:name) }
-    it { expect(create(:category)).to validate_uniqueness_of(:name).scoped_to(:user_id).case_insensitive }
+    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id).case_insensitive }
   end
 
   describe 'check_for_items' do
